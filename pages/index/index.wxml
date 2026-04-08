@@ -1,0 +1,52 @@
+<view class="container {{isDarkMode ? 'dark-mode' : ''}}">
+  <view class="color-converter">
+    <view class="converter-header">颜色转换</view>
+    <view class="input-container">
+      <input type="text" class="converter-input" value="{{colorInput}}" bindinput="onColorInput" bindfocus="onInputFocus" bindblur="onInputBlur" />
+      <button class="converter-btn" bindtap="convertColor">转换</button>
+    </view>
+    <view class="converter-result">
+      <view class="result-content">
+        <view class="result-item">HEX({{displayValues.hex}})<text wx:if="{{displayValues.hex}}" class="copy-hint" bindtap="copyResult" data-format="hex">点击复制</text></view>
+        <view class="result-item">RGB({{displayValues.rgb}})<text wx:if="{{displayValues.rgb}}" class="copy-hint" bindtap="copyResult" data-format="rgb">点击复制</text></view>
+        <view class="result-item">RGBA({{displayValues.rgba}})<text wx:if="{{displayValues.rgba}}" class="copy-hint" bindtap="copyResult" data-format="rgba">点击复制</text></view>
+        <view class="result-item">HSL({{displayValues.hsl}})<text wx:if="{{displayValues.hsl}}" class="copy-hint" bindtap="copyResult" data-format="hsl">点击复制</text></view>
+        <view class="result-item">HSLA({{displayValues.hsla}})<text wx:if="{{displayValues.hsla}}" class="copy-hint" bindtap="copyResult" data-format="hsla">点击复制</text></view>
+        <view class="result-item">HSV({{displayValues.hsv}})<text wx:if="{{displayValues.hsv}}" class="copy-hint" bindtap="copyResult" data-format="hsv">点击复制</text></view>
+        <view class="result-item">HSVA({{displayValues.hsva}})<text wx:if="{{displayValues.hsva}}" class="copy-hint" bindtap="copyResult" data-format="hsva">点击复制</text></view>
+        <view class="result-item">CMYK({{displayValues.cmyk}})<text wx:if="{{displayValues.cmyk}}" class="copy-hint" bindtap="copyResult" data-format="cmyk">点击复制</text></view>
+      </view>
+      <view wx:if="{{colorInput && liveColor !== '#ffffff' && colorInput !== '输入颜色代码转换'}}" class="live-color-preview" style="background: {{liveColor}}"></view>
+    </view>
+  </view>
+  <view class="search-container">
+    <input type="text" id="searchInput" value="{{searchInput}}" bindinput="onSearchInput" bindfocus="onSearchFocus" bindblur="onSearchBlur" />
+  </view>
+  <view class="datetime-display">{{datetimeDisplay}}</view>
+  <view class="tabs">
+    <button class="tab-btn {{activeTab === 'sixStandard' ? 'active' : ''}}" data-tab="sixStandard" bindtap="switchTab">标准色6</button>
+    <button class="tab-btn {{activeTab === 'primary' ? 'active' : ''}}" data-tab="primary" bindtap="switchTab">原色3</button>
+    <button class="tab-btn {{activeTab === 'secondary' ? 'active' : ''}}" data-tab="secondary" bindtap="switchTab">间色3</button>
+
+    <button class="tab-btn {{activeTab === 'cold' ? 'active' : ''}}" data-tab="cold" bindtap="switchTab">冷色8</button>
+    <button class="tab-btn {{activeTab === 'warm' ? 'active' : ''}}" data-tab="warm" bindtap="switchTab">暖色8</button>
+    <button class="tab-btn {{activeTab === 'neutral' ? 'active' : ''}}" data-tab="neutral" bindtap="switchTab">中性色12</button>
+    <button class="tab-btn {{activeTab === 'achromatic' ? 'active' : ''}}" data-tab="achromatic" bindtap="switchTab">无彩色10</button>
+    <button class="tab-btn {{activeTab === 'trueColor' ? 'active' : ''}}" data-tab="trueColor" bindtap="switchTab">真彩色12</button>
+    <button class="tab-btn {{activeTab === 'metallic' ? 'active' : ''}}" data-tab="metallic" bindtap="switchTab">金属色8</button>
+    <button class="tab-btn {{activeTab === 'extreme' ? 'active' : ''}}" data-tab="extreme" bindtap="switchTab">极色4</button>
+    <button class="tab-btn {{activeTab === 'gemstone' ? 'active' : ''}}" data-tab="gemstone" bindtap="switchTab">宝石色8</button>
+    <button class="tab-btn {{activeTab === 'painting' ? 'active' : ''}}" data-tab="painting" bindtap="switchTab">绘画色12</button>
+  </view>
+  <view class="color-grid">
+    <view wx:for="{{displayColors}}" wx:key="{{index}}" class="color-card" style="background: {{item.hex}}" bindtap="copyColor" data-hex="{{item.hex}}" data-name="{{item.name}}" data-index="{{index}}">
+      <view class="color-info" style="color: {{item.contrastColor}}">
+        {{item.name}}
+        <text>
+          {{item.hex}}
+        </text>
+      </view>
+    </view>
+  </view>
+  <view class="no-result" wx:if="{{displayColors.length === 0}}">未找到匹配的颜色</view>
+</view>
